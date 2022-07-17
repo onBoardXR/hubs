@@ -1379,6 +1379,7 @@ class UIRoot extends Component {
                   <SharePopoverContainer scene={this.props.scene} hubChannel={this.props.hubChannel} />
                   <PlacePopoverContainer
                     scene={this.props.scene}
+                    initialPresence={getPresenceProfileForSession(this.props.presences, this.props.sessionId)}
                     hubChannel={this.props.hubChannel}
                     mediaSearchStore={this.props.mediaSearchStore}
                     showNonHistoriedDialog={this.showNonHistoriedDialog}

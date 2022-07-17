@@ -26,8 +26,6 @@ import { MediaDevices, MediaDevicesEvents } from "./utils/media-devices-utils";
 import { getSendNetworkedId } from "./onboardxr/hubs-docking/socket-function-helpers.js";
 //onboardend
 
-const isIOS = detectIOS();
-
 export default class SceneEntryManager {
   constructor(hubChannel, authChannel, history) {
     this.hubChannel = hubChannel;
