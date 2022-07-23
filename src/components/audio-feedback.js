@@ -164,7 +164,11 @@ AFRAME.registerSystem("local-audio-analyser", {
 AFRAME.registerComponent("scale-audio-feedback", {
   schema: {
     minScale: { default: 1 },
-    maxScale: { default: 1.5 }
+    maxScale: { default: 1.5 },
+    //onboard
+    remoteAnalyserNetId: { default: "" },
+    disableLocalAvatar: { default: false }
+    //onboardend
   },
 
   async init() {
@@ -177,7 +181,21 @@ AFRAME.registerComponent("scale-audio-feedback", {
     // bone's are "hidden" by scaling them with bone-visibility, without this we would overwrite that.
     if (!this.el.object3D.visible) return;
     if (!this.cameraEl) return;
-    if (!this.analyser) this.analyser = getAnalyser(this.el);
+    //onboard
+    if (this.data.disableLocalAvatar) return;
+    // if (!this.analyser) this.analyser = getAnalyser(this.el);
+    if (!this.analyser) {
+      if (this.data.remoteAnalyserNetId !== "") {
+        //get analyser element by networked ID
+        const analyserElements = Array.from(document.querySelectorAll("[networked]"));
+        const analyserEl = analyserElements.find(el => el.id.includes(this.data.remoteAnalyserNetId));
+        if (!this.analyserEl) return;
+        this.analyser = getAnalyser(analyserEl);
+      } else {
+        this.analyser = getAnalyser(this.el);
+      }
+    }
+    //onboardend
 
     const { minScale, maxScale } = this.data;
 
