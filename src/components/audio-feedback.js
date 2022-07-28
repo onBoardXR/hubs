@@ -186,10 +186,11 @@ AFRAME.registerComponent("scale-audio-feedback", {
     // if (!this.analyser) this.analyser = getAnalyser(this.el);
     if (!this.analyser) {
       if (this.data.remoteAnalyserNetId !== "") {
+        //console.log("looking for remote analyser");
         //get analyser element by networked ID
         const analyserElements = Array.from(document.querySelectorAll("[networked]"));
         const analyserEl = analyserElements.find(el => el.id.includes(this.data.remoteAnalyserNetId));
-        if (!this.analyserEl) return;
+        if (!analyserEl) return;
         this.analyser = getAnalyser(analyserEl);
       } else {
         this.analyser = getAnalyser(this.el);
@@ -210,7 +211,9 @@ AFRAME.registerComponent("scale-audio-feedback", {
     );
 
     object3D.scale.setScalar(scale);
-    object3D.matrixNeedsUpdate = true;
+    if (this.data.remoteAnalyserNetId !== "") {
+      object3D.matrixNeedsUpdate = true;
+    }
   }
 });
 
