@@ -167,7 +167,11 @@ AFRAME.registerSystem("local-audio-analyser", {
 AFRAME.registerComponent("scale-audio-feedback", {
   schema: {
     minScale: { default: 1 },
-    maxScale: { default: 1.5 }
+    maxScale: { default: 1.5 },
+    //onboard
+    remoteAnalyserNetId: { default: "" },
+    disableLocalAvatar: { default: false }
+    //onboardend
   },
 
   async init() {
@@ -179,10 +183,20 @@ AFRAME.registerComponent("scale-audio-feedback", {
     if (!this.cameraEl) return;
     if (!this.analyser) this.analyser = getAnalyser(this.el);
 
-    this.el.object3D.scale.setScalar(
-      THREE.Math.mapLinear(this.analyser?.volume || 0, 0, 1, this.data.minScale, this.data.maxScale)
+    const { minScale, maxScale } = this.data;
+
+    const { object3D } = this.el;
+
+    const scale = getAudioFeedbackScale(
+      this.el.object3D,
+      this.cameraEl.object3DMap.camera,
+      minScale,
+      maxScale,
+      this.analyser ? this.analyser.volume : 0
     );
-    this.el.object3D.matrixNeedsUpdate = true;
+
+    object3D.scale.setScalar(scale);
+    object3D.matrixNeedsUpdate = true;
   }
 });
 
@@ -195,7 +209,11 @@ AFRAME.registerComponent("morph-audio-feedback", {
   schema: {
     name: { default: "" },
     minValue: { default: 0 },
-    maxValue: { default: 2 }
+    maxValue: { default: 2 },
+    //onboard
+    remoteAnalyserNetId: { default: "" },
+    disableLocalAvatar: { default: false }
+    //onboardend
   },
 
   init() {
@@ -205,7 +223,11 @@ AFRAME.registerComponent("morph-audio-feedback", {
     } else if (this.el.object3DMap.group) {
       // skinned mesh with multiple materials
       this.el.object3DMap.group.traverse(o => o.isSkinnedMesh && meshes.push(o));
+    } else if (this.el.object3DMap.mesh) {
+      console.log("found mesh");
+      meshes.push(this.el.object3DMap.mesh);
     }
+    console.log(meshes);
     if (meshes.length) {
       this.morphs = meshes
         .map(mesh => ({ mesh, morphNumber: mesh.morphTargetDictionary[this.data.name] }))
@@ -216,7 +238,27 @@ AFRAME.registerComponent("morph-audio-feedback", {
   tick() {
     if (!this.morphs || !this.morphs.length) return;
 
-    if (!this.analyser) this.analyser = getAnalyser(this.el);
+    //onboard
+    //if (!this.analyser) this.analyser = getAnalyser(this.el);
+    if (!this.analyser) {
+      if (this.data.remoteAnalyserNetId !== "") {
+        //console.log("looking for remote analyser");
+        //get analyser element by networked ID
+        const analyserElements = Array.from(document.querySelectorAll("[networked]"));
+        const analyserEl = analyserElements.find(el => el.id.includes(this.data.remoteAnalyserNetId));
+        console.log(analyserEl);
+        if (!analyserEl) return;
+        if (this.data.remoteAnalyserNetId === "avatar-rig") {
+          this.analyser = getAnalyser(analyserEl);
+        } else {
+          this.analyser = analyserEl.querySelector("[networked-audio-analyser]").components["networked-audio-analyser"];
+        }
+        //console.log(this.analyser.volume);
+      } else {
+        this.analyser = getAnalyser(this.el);
+      }
+    }
+    //onboardend
 
     const { minValue, maxValue } = this.data;
     const morphValue = THREE.Math.mapLinear(

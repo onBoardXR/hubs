@@ -185,6 +185,7 @@ export class CharacterControllerSystem {
         this.lockedObject = null;
       }
       if (this.lockedObject) {
+        if (this.lockedObject.el.components["waypoint"].data.canBeSpawnPoint) return;
         this.lockedObject.updateMatrices();
         this.travelByWaypoint(this.lockedObject.matrixWorld, false, false);
         return;
