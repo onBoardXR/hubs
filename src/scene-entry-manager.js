@@ -18,7 +18,7 @@ import {
   exit2DInterstitialAndEnterVR,
   forceExitFrom2DInterstitial
 } from "./utils/vr-interstitial";
-import { ObjectContentOrigins } from "./object-types";
+import { ObjectContentOrigins, objectTypeForOriginAndContentType } from "./object-types";
 import { getAvatarSrc, getAvatarType } from "./utils/avatar-utils";
 import { SOUND_ENTER_SCENE } from "./systems/sound-effects-system";
 import { MediaDevices, MediaDevicesEvents } from "./utils/media-devices-utils";
