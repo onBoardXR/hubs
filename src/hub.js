@@ -241,6 +241,19 @@ import { ThemeProvider } from "./react-components/styles/theme";
 import { LogMessageType } from "./react-components/room/ChatSidebar";
 import "./load-media-on-paste-or-drop";
 
+//onboard
+import stgSysClass from "./onboardxr/onboard_data/stage-system.js";
+import loginManagerOB from "./onboardxr/hubs-docking/onboard-login-manager.js"; //mike
+import ClemRusalkaOB4Class from "./onboardxr/clem-rusalka-ob4.js"; //clem
+import "./onboardxr/onboard_data/avatarFollower.js";
+import "./onboardxr/hubs-docking/components/cueingObject.js";
+
+import "./onboardxr/onboard_data/proximity-scale";
+import "./onboardxr/onboard_data/proximity-blend";
+import "./onboardxr/onboard_data/proximity-play-audio";
+import "./onboardxr/onboard_data/proximity-animation";
+//onboardend
+
 const PHOENIX_RELIABLE_NAF = "phx-reliable";
 NAF.options.firstSyncSource = PHOENIX_RELIABLE_NAF;
 NAF.options.syncSource = PHOENIX_RELIABLE_NAF;
@@ -1369,4 +1382,17 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   authChannel.setSocket(socket);
   linkChannel.setSocket(socket);
+
+
+  //onboard
+  window.stgSys = new stgSysClass(hubChannel);
+  window.loginOb = new loginManagerOB(); //mike
+  window.clemRusalkaOB4 = new ClemRusalkaOB4Class(); //clem
+
+  window.stgSys.init();
+    // setInterval(() => window.stgSys.regCheck(), 1000);
+  window.APP['cueing-object'] = {
+    currentCue: 1
+  }
+  //onboardend
 });

@@ -26,6 +26,10 @@ import { addComponent, removeEntity } from "bitecs";
 import { MyCameraTool } from "./bit-components";
 import { anyEntityWith } from "./utils/bit-utils";
 
+//onboard
+import { getSendNetworkedId } from "./onboardxr/hubs-docking/socket-function-helpers.js";
+//onboardend
+
 export default class SceneEntryManager {
   constructor(hubChannel, authChannel, history) {
     this.hubChannel = hubChannel;
@@ -122,6 +126,10 @@ export default class SceneEntryManager {
     setTimeout(() => this.store.bumpEntryCount(), 30000);
 
     this.scene.addState("entered");
+
+    //onboard
+    getSendNetworkedId();
+    //onboardend
 
     APP.mediaDevicesManager.micEnabled = !muteOnEntry;
   };

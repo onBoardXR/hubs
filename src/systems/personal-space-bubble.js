@@ -174,7 +174,10 @@ AFRAME.registerComponent("personal-space-invader", {
     radius: { type: "number", default: 0.1 },
     useMaterial: { default: false },
     debug: { default: false },
-    invadingOpacity: { default: 0.3 }
+    //onboard
+    //invadingOpacity: { default: 0.3 }
+    invadingOpacity: { default: 1 }
+    //onboardend
   },
 
   init() {
@@ -290,7 +293,10 @@ AFRAME.registerComponent("personal-space-invader", {
  */
 AFRAME.registerComponent("personal-space-bubble", {
   schema: {
-    radius: { type: "number", default: 0.8 },
+    //onboard
+    //radius: { type: "number", default: 0.8 },
+    radius: { type: "number", default: 0.0001 },
+    //onboardend
     debug: { default: false }
   },
   init() {

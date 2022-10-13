@@ -34,7 +34,10 @@ const defaultMaterialQuality = (function() {
     return qsDefault;
   }
 
-  return "high";
+  //onboard
+  //return "high";
+  return "medium";
+  //onboardend
 })();
 
 // WebAudio on Android devices (only non-VR devices?) seems to have
@@ -425,6 +428,22 @@ export default class Store extends EventTarget {
 
     localStorage.setItem(LOCAL_STORE_KEY, JSON.stringify(finalState));
     delete this[STORE_STATE_CACHE_KEY];
+
+    //onboard
+    if (window.localStorage) {
+      if (window.localStorage.___hubs_store) {
+        console.log("found hubs store");
+        let prefJSON = JSON.parse(window.localStorage.___hubs_store);
+        prefJSON.preferences.nametagVisibility = 'showFrozen';
+        prefJSON.preferences.disableTeleporter = true;
+        // prefJSON.preferences.muteMicOnEntry = true;
+        window.localStorage.___hubs_store = JSON.stringify(prefJSON);
+        window.localStorage.onBoardHasJoined = true;
+      } else {
+        console.log("waiting for hubs store");
+      }
+    }
+    //onboardend
 
     if (newState.profile !== undefined) {
       this.dispatchEvent(new CustomEvent("profilechanged"));

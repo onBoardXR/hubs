@@ -45,6 +45,9 @@ AFRAME.registerComponent("freeze-controller", {
   },
 
   onToggle: function() {
+    //onboardxr
+    if (window.stgSys && window.stgSys.myUser.role === "participant") return;
+    //onboardxr-end
     window.APP.store.update({ activity: { hasFoundFreeze: true } });
     if (!NAF.connection.adapter) return;
     NAF.connection.adapter.toggleFreeze();

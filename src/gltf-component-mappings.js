@@ -129,7 +129,7 @@ import { createElementEntity } from "./utils/jsx-entity";
 /** @jsx createElementEntity */ createElementEntity;
 
 AFRAME.GLTFModelPlus.registerComponent("media-frame", "media-frame", (el, _componentName, componentData) => {
-  const eid = renderAsEntity(APP.world, <entity mediaFrame={componentData} />);
+  const eid = renderAsEntity(APP.world, <entity media-frame={componentData} />);
 
   addComponent(APP.world, Networked, eid);
 
@@ -350,8 +350,16 @@ AFRAME.GLTFModelPlus.registerComponent(
   "trigger-volume",
   "trigger-volume",
   (el, componentName, componentData, components, indexToEntityMap) => {
-    const { size, target, enterComponent, enterProperty, enterValue, leaveComponent, leaveProperty, leaveValue } =
-      componentData;
+    const {
+      size,
+      target,
+      enterComponent,
+      enterProperty,
+      enterValue,
+      leaveComponent,
+      leaveProperty,
+      leaveValue
+    } = componentData;
 
     let enterComponentMapping, leaveComponentMapping, targetEntity;
 
@@ -607,3 +615,20 @@ AFRAME.GLTFModelPlus.registerComponent("reflection-probe", "reflection-probe", (
 
   el.setAttribute(componentName, componentData);
 });
+
+//onboard
+AFRAME.GLTFModelPlus.registerComponent("cueing-object", "cueing-object");
+
+AFRAME.GLTFModelPlus.registerComponent("proximity-scale", "proximity-scale");
+AFRAME.GLTFModelPlus.registerComponent("proximity-blend", "proximity-blend");
+AFRAME.GLTFModelPlus.registerComponent("proximity-play-audio", "proximity-play-audio");
+AFRAME.GLTFModelPlus.registerComponent("proximity-animation", "proximity-animation");
+AFRAME.GLTFModelPlus.registerComponent("prox-react", "prox-react", (el, _componentName, componentData) => {
+  //console.log("redirecting data to prox-blend", componentData);
+  let proxData = {
+    enabled: componentData.enabled,
+    reverse: componentData.reverse
+  };
+  window.APP["prox-react"] = proxData;
+});
+//onboardend

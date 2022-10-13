@@ -167,7 +167,12 @@ AFRAME.registerSystem("local-audio-analyser", {
 AFRAME.registerComponent("scale-audio-feedback", {
   schema: {
     minScale: { default: 1 },
-    maxScale: { default: 1.5 }
+    maxScale: { default: 1.5 },
+    //onboard
+    disabled: { default: false },
+    remoteAnalyserNetId: { default: "" },
+    disableLocalAvatar: { default: false }
+    //onboardend
   },
 
   async init() {
@@ -177,7 +182,29 @@ AFRAME.registerComponent("scale-audio-feedback", {
 
   tick() {
     if (!this.cameraEl) return;
-    if (!this.analyser) this.analyser = getAnalyser(this.el);
+
+    //onboard
+    if (this.data.disabled) return;
+    //if (!this.analyser) this.analyser = getAnalyser(this.el);
+    if (!this.analyser) {
+      if (this.data.remoteAnalyserNetId !== "") {
+        //console.log("looking for remote analyser");
+        //get analyser element by networked ID
+        const analyserElements = Array.from(document.querySelectorAll("[networked]"));
+        const analyserEl = analyserElements.find(el => el.id.includes(this.data.remoteAnalyserNetId));
+        console.log(analyserEl);
+        if (!analyserEl) return;
+        if (this.data.remoteAnalyserNetId === "avatar-rig") {
+          this.analyser = getAnalyser(analyserEl);
+        } else {
+          this.analyser = analyserEl.querySelector("[networked-audio-analyser]").components["networked-audio-analyser"];
+        }
+        //console.log(this.analyser.volume);
+      } else {
+        this.analyser = getAnalyser(this.el);
+      }
+    }
+    //onboardend
 
     this.el.object3D.scale.setScalar(
       THREE.MathUtils.mapLinear(this.analyser?.volume || 0, 0, 1, this.data.minScale, this.data.maxScale)
@@ -195,28 +222,68 @@ AFRAME.registerComponent("morph-audio-feedback", {
   schema: {
     name: { default: "" },
     minValue: { default: 0 },
-    maxValue: { default: 2 }
+    maxValue: { default: 2 },
+    //onboard
+    disabled: { default: false },
+    remoteAnalyserNetId: { default: "" },
+    disableLocalAvatar: { default: false }
+    //onboardend
   },
 
   init() {
     const meshes = [];
+    
+    //onboard
     if (this.el.object3DMap.skinnedmesh) {
       meshes.push(this.el.object3DMap.skinnedmesh);
     } else if (this.el.object3DMap.group) {
       // skinned mesh with multiple materials
       this.el.object3DMap.group.traverse(o => o.isSkinnedMesh && meshes.push(o));
+    } else if (this.el.object3DMap.mesh && this.data.remoteAnalyserNetId !== "") {
+      console.log("found mesh");
+      meshes.push(this.el.object3DMap.mesh);
     }
+    //onboardend
+
+    //console.log(meshes);
     if (meshes.length) {
       this.morphs = meshes
         .map(mesh => ({ mesh, morphNumber: mesh.morphTargetDictionary[this.data.name] }))
         .filter(m => m.morphNumber !== undefined);
+    } else {
+      setTimeout(() => {
+        //console.log('trying to init again')
+        this.init();
+      }, 500)
     }
   },
 
   tick() {
     if (!this.morphs || !this.morphs.length) return;
 
-    if (!this.analyser) this.analyser = getAnalyser(this.el);
+    //onboard
+    if (this.data.disabled) return;
+
+    //if (!this.analyser) this.analyser = getAnalyser(this.el);
+    if (!this.analyser) {
+      if (this.data.remoteAnalyserNetId !== "") {
+        //console.log("looking for remote analyser");
+        //get analyser element by networked ID
+        const analyserElements = Array.from(document.querySelectorAll("[networked]"));
+        const analyserEl = analyserElements.find(el => el.id.includes(this.data.remoteAnalyserNetId));
+        console.log(analyserEl);
+        if (!analyserEl) return;
+        if (this.data.remoteAnalyserNetId === "avatar-rig") {
+          this.analyser = getAnalyser(analyserEl);
+        } else {
+          this.analyser = analyserEl.querySelector("[networked-audio-analyser]").components["networked-audio-analyser"];
+        }
+        //console.log(this.analyser.volume);
+      } else {
+        this.analyser = getAnalyser(this.el);
+      }
+    }
+    //onboardend
 
     const { minValue, maxValue } = this.data;
     const morphValue = THREE.MathUtils.mapLinear(

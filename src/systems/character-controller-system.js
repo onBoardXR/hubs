@@ -45,6 +45,9 @@ const calculateDisplacementToDesiredPOV = (function() {
 const BASE_SPEED = 3.2; //TODO: in what units?
 export class CharacterControllerSystem {
   constructor(scene) {
+    //onboard
+    this.sceneLink = "";
+    //onboardend
     this.scene = scene;
     this.fly = false;
     this.shouldLandWhenPossible = false;
@@ -148,6 +151,12 @@ export class CharacterControllerSystem {
     };
   })();
 
+  //onboard
+  lockToObject(object) {
+    this.lockedObject = object;
+  }
+  //onboardend
+
   tick = (function() {
     const snapRotatedPOV = new THREE.Matrix4();
     const newPOV = new THREE.Matrix4();
@@ -169,6 +178,26 @@ export class CharacterControllerSystem {
       uiRoot = uiRoot || document.getElementById("ui-root");
       const isGhost = !entered && uiRoot && uiRoot.firstChild && uiRoot.firstChild.classList.contains("isGhost");
       if (!isGhost && !entered) return;
+
+      //onboard waypoint lock developed by MattBCool
+      const userinput = AFRAME.scenes[0].systems.userinput;
+      const acceleration = userinput.get(paths.actions.characterAcceleration);
+      const didTryToMove = acceleration && (Math.abs(acceleration[0]) > 0.001 || Math.abs(acceleration[1]) > 0.001);
+      if (didTryToMove) {
+        this.lockedObject = null;
+      }
+      if (this.lockedObject) {
+      //console.log(this.lockedObject);
+      if (!this.lockedObject.el) return;
+        if (this.lockedObject.el.components["waypoint"].data.canBeSpawnPoint && this.sceneLink !== window.APP.hub.scene.url) {
+        this.sceneLink = window.APP.hub.scene.url;
+        } else if (this.lockedObject.el.components["waypoint"].data.canBeSpawnPoint && this.sceneLink === window.APP.hub.scene.url) return;
+        this.lockedObject.updateMatrices();
+        this.travelByWaypoint(this.lockedObject.matrixWorld, false, true);
+        return;
+      }
+      //onboardend
+
       const vrMode = this.scene.is("vr-mode");
       this.sfx = this.sfx || this.scene.systems["hubs-systems"].soundEffectsSystem;
       this.waypointSystem = this.waypointSystem || this.scene.systems["hubs-systems"].waypointSystem;
@@ -228,7 +257,9 @@ export class CharacterControllerSystem {
         }
       }
 
-      const userinput = AFRAME.scenes[0].systems.userinput;
+      //onboard
+      //const userinput = AFRAME.scenes[0].systems.userinput;
+      //onboardend
       const wasFlying = this.fly;
       if (userinput.get(paths.actions.toggleFly)) {
         this.shouldLandWhenPossible = false;
