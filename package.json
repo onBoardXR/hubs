@@ -95,6 +95,7 @@
     "draft-js-plugins-editor": "^2.1.1",
     "emoji-mart": "^3.0.1",
     "event-target-shim": "^3.0.1",
+    "firebase": "^9.10.0",
     "form-data": "^3.0.0",
     "form-urlencoded": "^2.0.4",
     "history": "^4.7.2",

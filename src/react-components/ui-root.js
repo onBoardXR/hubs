@@ -1460,7 +1460,7 @@ class UIRoot extends Component {
                 viewport={
                   <>
                     {!this.state.dialog && renderEntryFlow ? entryDialog : undefined}
-                    {!this.props.selectedObject && <CompactMoreMenuButton />}
+                    {false && !this.props.selectedObject && <CompactMoreMenuButton />}
                     {(!this.props.selectedObject ||
                       (this.props.breakpoint !== "sm" && this.props.breakpoint !== "md")) && (
                       <ContentMenu>
@@ -1627,12 +1627,18 @@ class UIRoot extends Component {
                 }
                 modal={this.state.dialog}
                 toolbarLeft={
-                  <InvitePopoverContainer
-                    hub={this.props.hub}
-                    hubChannel={this.props.hubChannel}
-                    scene={this.props.scene}
-                    store={this.props.store}
-                  />
+                  <>
+                    {entered &&
+                      isMobileVR && (
+                        <ToolbarButton
+                          className={styleUtils.hideLg}
+                          icon={<VRIcon />}
+                          preset="accept"
+                          label={<FormattedMessage id="toolbar.enter-vr-button" defaultMessage="Enter VR" />}
+                          onClick={() => exit2DInterstitialAndEnterVR(true)}
+                        />
+                      )}
+                  </>
                 }
                 toolbarCenter={
                   <>
@@ -1709,7 +1715,7 @@ class UIRoot extends Component {
                         }}
                       />
                     )}
-                    <MoreMenuPopoverButton menu={moreMenu} />
+                    {/* <MoreMenuPopoverButton menu={moreMenu} /> */}
                   </>
                 }
               />
