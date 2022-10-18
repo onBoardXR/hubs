@@ -244,7 +244,8 @@ import "./load-media-on-paste-or-drop";
 //onboard
 import stgSysClass from "./onboardxr/onboard_data/stage-system.js";
 import loginManagerOB from "./onboardxr/hubs-docking/onboard-login-manager.js"; //mike
-//import ClemRusalkaOB4Class from "./onboardxr/clem-rusalka-ob4.js"; //clem
+// import ClemRusalkaOB4Class from "./onboardxr/obx-clem/clem-rusalka-ob4.js"; //clem
+import ClemMocap2DancersClass from "./onboardxr/obx-clem/clem-mocap-2dancers"; //clem
 import "./onboardxr/onboard_data/avatarFollower.js";
 import "./onboardxr/hubs-docking/components/cueingObject.js";
 
@@ -1387,8 +1388,14 @@ document.addEventListener("DOMContentLoaded", async () => {
   //onboard
   window.stgSys = new stgSysClass(hubChannel);
   window.loginOb = new loginManagerOB(); //mike
-  //window.clemRusalkaOB4 = new ClemRusalkaOB4Class(); //clem
+  // window.clemRusalkaOB4 = new ClemRusalkaOB4Class(); //clem
+  window.ClemMocap2Dancers = new ClemMocap2DancersClass(); //clem
 
+  if (window.location.href.includes("3NGzu5v")) {
+    console.log("----- CLEM CLASS CONDITION ENTERED");
+    window.ClemMocap2Dancers.init();
+  }
+  
   window.stgSys.init();
     // setInterval(() => window.stgSys.regCheck(), 1000);
   window.APP['cueing-object'] = {
