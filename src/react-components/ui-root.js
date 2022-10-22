@@ -1627,18 +1627,12 @@ class UIRoot extends Component {
                 }
                 modal={this.state.dialog}
                 toolbarLeft={
-                  <>
-                    {entered &&
-                      isMobileVR && (
-                        <ToolbarButton
-                          className={styleUtils.hideLg}
-                          icon={<VRIcon />}
-                          preset="accept"
-                          label={<FormattedMessage id="toolbar.enter-vr-button" defaultMessage="Enter VR" />}
-                          onClick={() => exit2DInterstitialAndEnterVR(true)}
-                        />
-                      )}
-                  </>
+                  <InvitePopoverContainer
+                    hub={this.props.hub}
+                    hubChannel={this.props.hubChannel}
+                    scene={this.props.scene}
+                    store={this.props.store}
+                  />
                 }
                 toolbarCenter={
                   <>
@@ -1662,7 +1656,7 @@ class UIRoot extends Component {
                         )}
                       </>
                     )}
-                    {false && entered && (
+                    {entered && (
                       <>
                         <AudioPopoverContainer scene={this.props.scene} />
                         <SharePopoverContainer scene={this.props.scene} hubChannel={this.props.hubChannel} />
@@ -1680,8 +1674,8 @@ class UIRoot extends Component {
                         )}
                       </>
                     )}
-                    {/* <ChatToolbarButtonContainer onClick={() => this.toggleSidebar("chat")} /> */}
-                    {false && entered && isMobileVR && (
+                    <ChatToolbarButtonContainer onClick={() => this.toggleSidebar("chat")} />
+                    {entered && isMobileVR && (
                       <ToolbarButton
                         className={styleUtils.hideLg}
                         icon={<VRIcon />}
@@ -1694,7 +1688,7 @@ class UIRoot extends Component {
                 }
                 toolbarRight={
                   <>
-                    {false && entered && isMobileVR && (
+                    {entered && isMobileVR && (
                       <ToolbarButton
                         icon={<VRIcon />}
                         preset="accept"
@@ -1702,7 +1696,7 @@ class UIRoot extends Component {
                         onClick={() => exit2DInterstitialAndEnterVR(true)}
                       />
                     )}
-                    {false && entered && (
+                    {entered && (
                       <ToolbarButton
                         icon={<LeaveIcon />}
                         label={<FormattedMessage id="toolbar.leave-room-button" defaultMessage="Leave" />}
@@ -1715,7 +1709,7 @@ class UIRoot extends Component {
                         }}
                       />
                     )}
-                    {/* <MoreMenuPopoverButton menu={moreMenu} /> */}
+                    <MoreMenuPopoverButton menu={moreMenu} />
                   </>
                 }
               />
