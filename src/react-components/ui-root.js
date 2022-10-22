@@ -1709,7 +1709,7 @@ class UIRoot extends Component {
                         }}
                       />
                     )}
-                    <MoreMenuPopoverButton menu={moreMenu} />
+                    {/* <MoreMenuPopoverButton menu={moreMenu} /> */}
                   </>
                 }
               />
