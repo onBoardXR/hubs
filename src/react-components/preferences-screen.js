@@ -995,7 +995,7 @@ class PreferencesScreen extends Component {
             key: "movementSpeedModifier",
             prefType: PREFERENCE_LIST_ITEM_TYPE.NUMBER_WITH_RANGE,
             min: 0,
-            max: 100,
+            max: 15,
             step: 0.1,
             digits: 1
           }
