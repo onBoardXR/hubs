@@ -245,7 +245,8 @@ import "./load-media-on-paste-or-drop";
 import stgSysClass from "./onboardxr/onboard_data/stage-system.js";
 import loginManagerOB from "./onboardxr/hubs-docking/onboard-login-manager.js"; //mike
 // import ClemRusalkaOB4Class from "./onboardxr/obx-clem/clem-rusalka-ob4.js"; //clem
-import ClemMocap2DancersClass from "./onboardxr/obx-clem/clem-mocap-2dancers"; //clem
+// import ClemMocap2DancersClass from "./onboardxr/obx-clem/clem-mocap-2dancers.js"; //clem
+import ClemDiscordanceClass from "./onboardxr/obx-clem/clem-discordance.js"; //clem
 import "./onboardxr/onboard_data/avatarFollower.js";
 import "./onboardxr/hubs-docking/components/cueingObject.js";
 
@@ -1389,11 +1390,12 @@ document.addEventListener("DOMContentLoaded", async () => {
   window.stgSys = new stgSysClass(hubChannel);
   window.loginOb = new loginManagerOB(); //mike
   // window.clemRusalkaOB4 = new ClemRusalkaOB4Class(); //clem
-  window.ClemMocap2Dancers = new ClemMocap2DancersClass(); //clem
+  //window.clemMocap2Dancers = new ClemMocap2DancersClass(); //clem
+  window.clemDiscordance = new ClemDiscordanceClass(); //clem
 
   if (window.location.href.includes("3NGzu5v")) {
-    console.log("----- CLEM CLASS CONDITION ENTERED");
-    window.ClemMocap2Dancers.init();
+    //window.clemMocap2Dancers.init();
+    window.clemDiscordance.init();
   }
   
   window.stgSys.init();
