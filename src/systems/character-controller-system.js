@@ -188,9 +188,12 @@ export class CharacterControllerSystem {
       }
       if (this.lockedObject) {
       //console.log(this.lockedObject);
-      if (!this.lockedObject.el) return;
+        if (!this.lockedObject.el) return;
         if (this.lockedObject.el.components["waypoint"].data.canBeSpawnPoint && this.sceneLink !== window.APP.hub.scene.url) {
         this.sceneLink = window.APP.hub.scene.url;
+        this.lockedObject.updateMatrices();
+        this.travelByWaypoint(this.lockedObject.matrixWorld, false, false);
+        return
         } else if (this.lockedObject.el.components["waypoint"].data.canBeSpawnPoint && this.sceneLink === window.APP.hub.scene.url) return;
         this.lockedObject.updateMatrices();
         this.travelByWaypoint(this.lockedObject.matrixWorld, false, true);
