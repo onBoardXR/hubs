@@ -23,6 +23,9 @@ export default class MessageDispatch extends EventTarget {
   }
 
   addToPresenceLog(entry) {
+    //20Dash
+    console.log(entry);
+    //20Dashend
     entry.key = Date.now().toString();
 
     this.presenceLogEntries.push(entry);

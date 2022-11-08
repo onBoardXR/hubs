@@ -22,11 +22,15 @@ const defaultMaterialQuality = (function() {
   // if we wanted to use these checks without having to import all of AFRAME.
   const isMobile = window.AFRAME && (AFRAME.utils.device.isMobile() || AFRAME.utils.device.isMobileVR());
   if (isMobile) {
+    //onboard
     const qsMobileDefault = qsGet("default_mobile_material_quality");
     if (qsMobileDefault && MATERIAL_QUALITY_OPTIONS.indexOf(qsMobileDefault) !== -1) {
       return qsMobileDefault;
     }
-    return "low";
+
+    //return "low";
+    return "medium";
+    //onboardend
   }
 
   const qsDefault = qsGet("default_material_quality");

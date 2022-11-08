@@ -47,7 +47,7 @@ AFRAME.registerComponent("shape-helper", {
       }
     }
     if (!this.bodyHelper || this.bodyHelper.uuid === null || this.bodyHelper.uuid === undefined) {
-      console.error("body not found");
+      //console.error("body not found");
       return;
     }
     if (this.data.fit === FIT.ALL) {
