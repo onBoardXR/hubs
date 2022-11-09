@@ -47,6 +47,7 @@ export class CharacterControllerSystem {
   constructor(scene) {
     //onboard
     this.sceneLink = "";
+    this.listenerSet = false;
     //onboardend
     this.scene = scene;
     this.fly = false;
@@ -189,9 +190,16 @@ export class CharacterControllerSystem {
       if (this.lockedObject) {
       //console.log(this.lockedObject);
         if (!this.lockedObject.el) return;
-        if (this.sceneLink !== "" && this.sceneLink !== window.APP.hub.scene.url) {
-          console.log('scene change, resetting sceneLink');
-          this.sceneLink = "";
+        // if (this.sceneLink !== "" && this.sceneLink !== window.APP.hub.scene.url) {
+        //   console.log('scene change, resetting sceneLink');
+        //   this.sceneLink = "";
+        // }
+        if (document.querySelector("#environment-scene") && !this.listenerSet) {
+          document.querySelector("#environment-scene").addEventListener("model-loaded", () => {
+            console.log('resetting scene link');
+            this.sceneLink = "";
+          });
+          this.listenerSet = true;
         }
         if (this.lockedObject.el.components["waypoint"].data.canBeSpawnPoint && this.sceneLink === "") {
           console.log('traveling to spawnpoint')
@@ -201,7 +209,7 @@ export class CharacterControllerSystem {
           return;
         } else if (this.lockedObject.el.components["waypoint"].data.canBeSpawnPoint && this.sceneLink === window.APP.hub.scene.url) return;
         this.lockedObject.updateMatrices();
-        this.travelByWaypoint(this.lockedObject.matrixWorld, false, true);
+        this.travelByWaypoint(this.lockedObject.matrixWorld, false, false);
         return;
       }
       //onboardend
