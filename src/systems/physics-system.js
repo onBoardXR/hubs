@@ -154,7 +154,9 @@ export class PhysicsSystem {
             const object3D = body.object3D;
             if (!object3D.parent) {
               // TODO: Fix me
-              console.error("Physics body exists but object3D has no parent.");
+              //onboardxr
+              //console.error("Physics body exists but object3D has no parent.");
+              //onboardxr
               continue;
             }
             if (type === TYPE.DYNAMIC) {
