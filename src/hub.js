@@ -1393,7 +1393,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   //window.clemMocap2Dancers = new ClemMocap2DancersClass(); //clem
   window.clemDiscordance = new ClemDiscordanceClass(); //clem
 
-  if (window.location.href.includes("3NGzu5v")) {
+  if (window.location.href.includes("3NGzu5v") || window.location.href.includes("JZAQN33")) {
     //window.clemMocap2Dancers.init();
     window.clemDiscordance.init();
   }
