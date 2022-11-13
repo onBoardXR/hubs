@@ -205,6 +205,12 @@ export class CharacterControllerSystem {
           console.log('traveling to spawnpoint')
           this.sceneLink = window.APP.hub.scene.url;
           this.lockedObject.updateMatrices();
+          if (sockSys) {
+            if (sockSys.myUser.role === "performer") {
+              this.travelByWaypoint(this.lockedObject.matrixWorld, false, true);
+              return;
+            }
+          }
           this.travelByWaypoint(this.lockedObject.matrixWorld, false, false);
           return;
         } else if (this.lockedObject.el.components["waypoint"].data.canBeSpawnPoint && this.sceneLink === window.APP.hub.scene.url) return;
