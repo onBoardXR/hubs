@@ -175,7 +175,10 @@ AFRAME.registerComponent("media-loader", {
       this.clearLoadingTimeout();
       return;
     }
-    const useFancyLoader = !!loadingObject;
+    //mike
+    //const useFancyLoader = !!loadingObject;
+    const useFancyLoader = false;
+    //mike-end
 
     const mesh = useFancyLoader
       ? cloneObject3D(loadingObject.scene)
