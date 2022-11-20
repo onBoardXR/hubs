@@ -201,8 +201,8 @@ AFRAME.registerComponent("media-loader", {
         this.el.setAttribute("shape-helper__loader", { type: SHAPE.BOX });
       }, 200);
 
-      this.loadingClip.play();
-      this.loadingScaleClip.play();
+      // this.loadingClip.play();
+      // this.loadingScaleClip.play();
     }
 
     if (
