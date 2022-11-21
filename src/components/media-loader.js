@@ -184,6 +184,7 @@ AFRAME.registerComponent("media-loader", {
       ? cloneObject3D(loadingObject.scene)
       : new THREE.Mesh(new THREE.BoxGeometry(), new THREE.MeshBasicMaterial());
     this.el.setObject3D("mesh", mesh);
+    mesh.visible = false;     //clem
 
     this.updateScale(true, false);
 
