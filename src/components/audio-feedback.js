@@ -192,7 +192,7 @@ AFRAME.registerComponent("scale-audio-feedback", {
         //get analyser element by networked ID
         const analyserElements = Array.from(document.querySelectorAll("[networked]"));
         const analyserEl = analyserElements.find(el => el.id.includes(this.data.remoteAnalyserNetId));
-        console.log(analyserEl);
+        //console.log(analyserEl);
         if (!analyserEl) return;
         if (this.data.remoteAnalyserNetId === "avatar-rig") {
           this.analyser = getAnalyser(analyserEl);
@@ -240,7 +240,7 @@ AFRAME.registerComponent("morph-audio-feedback", {
       // skinned mesh with multiple materials
       this.el.object3DMap.group.traverse(o => o.isSkinnedMesh && meshes.push(o));
     } else if (this.el.object3DMap.mesh && this.data.remoteAnalyserNetId !== "") {
-      console.log("found mesh");
+      //console.log("found mesh");
       meshes.push(this.el.object3DMap.mesh);
     }
     //onboardend
@@ -271,7 +271,7 @@ AFRAME.registerComponent("morph-audio-feedback", {
         //get analyser element by networked ID
         const analyserElements = Array.from(document.querySelectorAll("[networked]"));
         const analyserEl = analyserElements.find(el => el.id.includes(this.data.remoteAnalyserNetId));
-        console.log(analyserEl);
+        //console.log(analyserEl);
         if (!analyserEl) return;
         if (this.data.remoteAnalyserNetId === "avatar-rig") {
           this.analyser = getAnalyser(analyserEl);

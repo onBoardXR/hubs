@@ -436,7 +436,7 @@ export default class Store extends EventTarget {
     //onboard
     if (window.localStorage) {
       if (window.localStorage.___hubs_store) {
-        console.log("found hubs store");
+        //console.log("found hubs store");
         let prefJSON = JSON.parse(window.localStorage.___hubs_store);
         prefJSON.preferences.nametagVisibility = 'showFrozen';
         prefJSON.preferences.disableTeleporter = true;

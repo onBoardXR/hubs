@@ -196,7 +196,7 @@ export class CharacterControllerSystem {
         // }
         if (document.querySelector("#environment-scene") && !this.listenerSet) {
           document.querySelector("#environment-scene").addEventListener("model-loaded", () => {
-            console.log('resetting scene link');
+            //console.log('resetting scene link');
             this.sceneLink = "";
           });
           this.listenerSet = true;
