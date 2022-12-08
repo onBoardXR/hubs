@@ -100,6 +100,7 @@ import { ECSDebugSidebarContainer } from "./debug-panel/ECSSidebar";
 
 //onboard
 import "../onboardxr/onboard_data/stage-system.scss";
+import AvatarTransformDisplay from "../onboardxr/hubs-docking/avTransformDisp.js"
 //onboard
 
 
@@ -1631,8 +1632,13 @@ class UIRoot extends Component {
             )}
           </div>
         </ReactAudioContext.Provider>
+        {/* onboardxr */}
         {helpImg}
         {cueUI}
+        {this.props.store.state.preferences.showAvatarTransform && (
+          <AvatarTransformDisplay />
+        )}
+        {/* onboardxrend */}
       </MoreMenuContextProvider>
     );
   }

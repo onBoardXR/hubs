@@ -439,6 +439,12 @@ const preferenceLabels = defineMessages({
     id: "preferences-screen.preference.show-fps-counter",
     defaultMessage: "Show FPS Counter"
   },
+  //onboardxr
+  showAvatarTransform: {
+    id: "preferences-screen.preference.show-avatar-transform",
+    defaultMessage: "Show Avatar Transform Properties"
+  },
+  //onboardxrend
   maxResolution: {
     id: "preferences-screen.preference.max-resolution",
     defaultMessage: "Max Resolution"
@@ -1225,6 +1231,12 @@ class PreferencesScreen extends Component {
             key: "showFPSCounter",
             prefType: PREFERENCE_LIST_ITEM_TYPE.CHECK_BOX
           },
+          //onboard
+          {
+            key: "showAvatarTransform",
+            prefType: PREFERENCE_LIST_ITEM_TYPE.CHECK_BOX
+          },
+          //onboardend
           {
             key: "showRtcDebugPanel",
             prefType: PREFERENCE_LIST_ITEM_TYPE.CHECK_BOX

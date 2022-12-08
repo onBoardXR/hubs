@@ -131,6 +131,9 @@ export const SCHEMA = {
         enableGyro: { type: "bool", default: true },
         animateWaypointTransitions: { type: "bool", default: true },
         showFPSCounter: { type: "bool", default: false },
+        //onboardxr
+        showAvatarTransform: { type: "bool", default: false },
+        //onboardxrend
         allowMultipleHubsInstances: { type: "bool", default: false },
         disableIdleDetection: { type: "bool", default: false },
         fastRoomSwitching: { type: "bool", default: false },
