@@ -20,6 +20,25 @@ export class KeyboardDevice {
     ["keydown", "keyup"].map(x =>
       document.addEventListener(x, e => {
         if (!e.key) return;
+
+        //onboardxr
+        const qs = new URLSearchParams(location.search);
+        const studioMode = qs.get("t") === "obxtheatrejs";
+        //console.log(studioMode);
+        if (studioMode) {
+          //block interfering hubs keys
+          /*
+          number keys
+          */
+          //console.log(+e.key);
+          if (+e.key) {
+            //console.log("preventing key");
+            //e.preventDefault();
+            return;
+          }
+        }
+        //onboardxrend
+
         this.events.push(e);
 
         // Block browser hotkeys for chat command, media browser and freeze

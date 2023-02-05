@@ -13,11 +13,18 @@ import {
 import { getCurrentPlayerHeight } from "../utils/get-current-player-height";
 import qsTruthy from "../utils/qs_truthy";
 //import { m4String } from "../utils/pretty-print";
+
+//onboardxr
+import { updateTheatreObject, setAvatarRotation } from "../onboardxr/hubs-docking/theatre.js";
+const qs = new URLSearchParams(location.search);
+const studioMode = qs.get("t") === "obxtheatrejs";
+//onboardxrend
+
 const NAV_ZONE = "character";
 const qsAllowWaypointLerp = qsTruthy("waypointLerp");
 const isMobile = AFRAME.utils.device.isMobile();
 
-const calculateDisplacementToDesiredPOV = (function() {
+const calculateDisplacementToDesiredPOV = (function () {
   const translationCoordinateSpace = new THREE.Matrix4();
   const translated = new THREE.Matrix4();
   const localTranslation = new THREE.Matrix4();
@@ -80,7 +87,7 @@ export class CharacterControllerSystem {
     this.dXZ += dXZ;
   }
   // We assume the rig is at the root, and its local position === its world position.
-  teleportTo = (function() {
+  teleportTo = (function () {
     const rig = new THREE.Vector3();
     const head = new THREE.Vector3();
     const deltaFromHeadToTargetForHead = new THREE.Vector3();
@@ -101,7 +108,7 @@ export class CharacterControllerSystem {
     };
   })();
 
-  travelByWaypoint = (function() {
+  travelByWaypoint = (function () {
     const inMat4Copy = new THREE.Matrix4();
     const inPosition = new THREE.Vector3();
     const outPosition = new THREE.Vector3();
@@ -142,10 +149,7 @@ export class CharacterControllerSystem {
         initialOrientation.extractRotation(this.avatarPOV.object3D.matrixWorld);
         finalScale.setFromMatrixScale(finalPOV);
         finalPosition.setFromMatrixPosition(finalPOV);
-        finalPOV
-          .copy(initialOrientation)
-          .scale(finalScale)
-          .setPosition(finalPosition);
+        finalPOV.copy(initialOrientation).scale(finalScale).setPosition(finalPosition);
       }
       calculateCameraTransformForWaypoint(this.avatarPOV.object3D.matrixWorld, finalPOV, finalPOV);
       childMatch(this.avatarRig.object3D, this.avatarPOV.object3D, finalPOV);
@@ -158,7 +162,7 @@ export class CharacterControllerSystem {
   }
   //onboardend
 
-  tick = (function() {
+  tick = (function () {
     const snapRotatedPOV = new THREE.Matrix4();
     const newPOV = new THREE.Matrix4();
     const displacementToDesiredPOV = new THREE.Vector3();
@@ -188,7 +192,7 @@ export class CharacterControllerSystem {
         this.lockedObject = null;
       }
       if (this.lockedObject) {
-      //console.log(this.lockedObject);
+        //console.log(this.lockedObject);
         if (!this.lockedObject.el) return;
         // if (this.sceneLink !== "" && this.sceneLink !== window.APP.hub.scene.url) {
         //   console.log('scene change, resetting sceneLink');
@@ -202,7 +206,7 @@ export class CharacterControllerSystem {
           this.listenerSet = true;
         }
         if (this.lockedObject.el.components["waypoint"].data.canBeSpawnPoint && this.sceneLink === "") {
-          console.log('traveling to spawnpoint')
+          console.log("traveling to spawnpoint");
           this.sceneLink = window.APP.hub.scene.url;
           this.lockedObject.updateMatrices();
           if (sockSys) {
@@ -213,7 +217,11 @@ export class CharacterControllerSystem {
           }
           this.travelByWaypoint(this.lockedObject.matrixWorld, false, false);
           return;
-        } else if (this.lockedObject.el.components["waypoint"].data.canBeSpawnPoint && this.sceneLink === window.APP.hub.scene.url) return;
+        } else if (
+          this.lockedObject.el.components["waypoint"].data.canBeSpawnPoint &&
+          this.sceneLink === window.APP.hub.scene.url
+        )
+          return;
         this.lockedObject.updateMatrices();
         this.travelByWaypoint(this.lockedObject.matrixWorld, false, false);
         return;
@@ -305,6 +313,12 @@ export class CharacterControllerSystem {
       }
       if (snapRotateLeft || snapRotateRight) {
         this.scene.systems["hubs-systems"].soundEffectsSystem.playSoundOneShot(SOUND_SNAP_ROTATE);
+        //onboardxr
+        //write rotation
+        if (studioMode) {
+          setAvatarRotation();
+        }
+        //onboardxrend
       }
       const characterAcceleration = userinput.get(paths.actions.characterAcceleration);
       if (characterAcceleration) {
@@ -317,8 +331,8 @@ export class CharacterControllerSystem {
             (preferences.disableMovement
               ? 0
               : preferences.disableBackwardsMovement
-                ? Math.min(0, zCharacterAcceleration)
-                : zCharacterAcceleration)
+              ? Math.min(0, zCharacterAcceleration)
+              : zCharacterAcceleration)
         );
       }
       const lerpC = vrMode ? 0 : 0.85; // TODO: To support drifting ("ice skating"), motion needs to keep initial direction
@@ -327,13 +341,15 @@ export class CharacterControllerSystem {
 
       this.avatarPOV.object3D.updateMatrices();
       rotateInPlaceAroundWorldUp(this.avatarPOV.object3D.matrixWorld, this.dXZ, snapRotatedPOV);
+      //console.log(snapRotatedPOV, this.avatarPOV.object3D.matrixWorld, this.dXZ);
 
       newPOV.copy(snapRotatedPOV);
 
       const navMeshExists = NAV_ZONE in this.scene.systems.nav.pathfinder.zones;
+      const triedToMove = this.relativeMotion.lengthSq() > 0.000001;
+
       if (!this.isMotionDisabled) {
         const playerScale = v.setFromMatrixColumn(this.avatarPOV.object3D.matrixWorld, 1).length();
-        const triedToMove = this.relativeMotion.lengthSq() > 0.000001;
 
         if (triedToMove) {
           const speedModifier = preferences.movementSpeedModifier;
@@ -383,7 +399,7 @@ export class CharacterControllerSystem {
         if (!this.activeWaypoint && this.shouldUnoccupyWaypointsOnceMoving && triedToMove) {
           this.shouldUnoccupyWaypointsOnceMoving = false;
           this.waypointSystem.releaseAnyOccupiedWaypoints();
-          if (this.fly && this.shouldLandWhenPossible && (shouldResnapToNavMesh && squareDistNavMeshCorrection < 3)) {
+          if (this.fly && this.shouldLandWhenPossible && shouldResnapToNavMesh && squareDistNavMeshCorrection < 3) {
             newPOV.setPosition(navMeshSnappedPOVPosition);
             this.shouldLandWhenPossible = false;
             this.fly = false;
@@ -392,6 +408,30 @@ export class CharacterControllerSystem {
       }
 
       childMatch(this.avatarRig.object3D, this.avatarPOV.object3D, newPOV);
+
+      //onboardxr
+      if (triedToMove && studioMode) {
+        //console.log(this.avatarRig.object3D.position);
+        //if object has not been set to theatreJS updating, set it and add new current scrub
+        if (!this.avatarRig.object3D.theatreUpdate) {
+          this.avatarRig.object3D.theatreUpdate = true;
+          sockSys.theatreJS.avatarScrub = sockSys.theatreJS.studio.scrub();
+          //console.log("starting up scrub");
+        }
+        //pass object to be updated
+        updateTheatreObject(this.avatarRig.object3D, sockSys.theatreJS.avatarScrub);
+        // if (!this.avatarRig.object3D.theatreInt) {
+        //   this.avatarRig.object3D.theatreInt = updateTheatreObject(this.avatarRig.object3D, sockSys.theatreJS.avatarScrub);
+        // }
+      } else if (!triedToMove && this.avatarRig.object3D.theatreUpdate && studioMode) {
+        //commit scrub, remove update, and reset scrub
+        //clearInterval(this.avatarRig.object3D.theatreInt);
+        this.avatarRig.object3D.theatreInt = undefined;
+        this.avatarRig.object3D.theatreUpdate = false;
+        sockSys.theatreJS.avatarScrub.commit();
+      }
+      //onboardxrend
+
       this.relativeMotion.copy(this.nextRelativeMotion);
       this.dXZ = 0;
     };
@@ -408,7 +448,7 @@ export class CharacterControllerSystem {
     );
   }
 
-  findPOVPositionAboveNavMesh = (function() {
+  findPOVPositionAboveNavMesh = (function () {
     const startingFeetPosition = new THREE.Vector3();
     const desiredFeetPosition = new THREE.Vector3();
     // TODO: Here we assume the player is standing straight up, but in VR it is often the case

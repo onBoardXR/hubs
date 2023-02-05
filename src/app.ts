@@ -30,6 +30,9 @@ declare global {
     $B: typeof bitecs;
     $O: (eid: number) => Object3D | undefined;
     APP: App;
+    //onboardxr
+    sockSys: any;
+    //onboardxrend
   }
   const APP: App;
 }
@@ -213,6 +216,13 @@ export class App {
       if (sceneEl.isPlaying) {
         sceneEl.tick(time, delta);
       }
+
+      //onboardxr
+      if (window.sockSys && window.sockSys.theatreJS && window.sockSys.theatreJS.rafDriver) {
+        window.sockSys.theatreJS.rafDriver.tick(performance.now())
+        //console.log('ticking')
+      }
+      //onboardxrend
 
       renderer.render(sceneEl.object3D, camera);
     };

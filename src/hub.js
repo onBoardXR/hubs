@@ -1385,7 +1385,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   authChannel.setSocket(socket);
   linkChannel.setSocket(socket);
 
-
   //onboard
   window.stgSys = new stgSysClass(hubChannel);
   window.loginOb = new loginManagerOB(); //mike
@@ -1397,11 +1396,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     //window.clemMocap2Dancers.init();
     window.clemDiscordance.init();
   }
-  
+
   window.stgSys.init();
-    // setInterval(() => window.stgSys.regCheck(), 1000);
-  window.APP['cueing-object'] = {
+  // setInterval(() => window.stgSys.regCheck(), 1000);
+  window.APP["cueing-object"] = {
     currentCue: 1
-  }
+  };
+
   //onboardend
 });

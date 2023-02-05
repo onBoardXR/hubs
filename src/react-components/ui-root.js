@@ -100,9 +100,8 @@ import { ECSDebugSidebarContainer } from "./debug-panel/ECSSidebar";
 
 //onboard
 import "../onboardxr/onboard_data/stage-system.scss";
-import AvatarTransformDisplay from "../onboardxr/hubs-docking/avTransformDisp.js"
+import AvatarTransformDisplay from "../onboardxr/hubs-docking/avTransformDisp.js";
 //onboard
-
 
 const avatarEditorDebug = qsTruthy("avatarEditorDebug");
 
@@ -1328,11 +1327,11 @@ class UIRoot extends Component {
 
     const cueUI = window.stgSys.renderCueUI();
     const clapIcon = (
-      <img className="nonDragSel iconTopLeftMenu" src="../assets/onBoard/clap.png" onClick={() => window.clap()} />
+      <img className="nonDragSel iconTopLeftMenu" src="./onBoard/clap.png" onClick={() => window.clap()} />
     );
 
     const helpIcon = (
-      <img className="nonDragSel iconTopLeftMenu" src="../assets/onBoard/help.svg" onClick={() => window.helpMe()} />
+      <img className="nonDragSel iconTopLeftMenu" src="./onBoard/help.svg" onClick={() => window.helpMe()} />
     );
 
     const helpImg = (
@@ -1375,23 +1374,24 @@ class UIRoot extends Component {
                     mediaSearchStore={this.props.mediaSearchStore}
                     showNonHistoriedDialog={this.showNonHistoriedDialog}
                   />
-                  {this.props.hubChannel.can("spawn_emoji") && <ReactionPopoverContainer
-                    scene={this.props.scene}
-                    initialPresence={getPresenceProfileForSession(this.props.presences, this.props.sessionId)}
-                  />}
-                  {clapIcon}
-                  {helpIcon}
+                  {this.props.hubChannel.can("spawn_emoji") && (
+                    <ReactionPopoverContainer
+                      scene={this.props.scene}
+                      initialPresence={getPresenceProfileForSession(this.props.presences, this.props.sessionId)}
+                    />
+                  )}
+                  {/* {clapIcon}
+                  {helpIcon} */}
                 </>
               )}
-              {entered &&
-                isMobileVR && (
-                  <ToolbarButton
-                    icon={<VRIcon />}
-                    preset="accept"
-                    label={<FormattedMessage id="toolbar.enter-vr-button" defaultMessage="Enter VR" />}
-                    onClick={() => exit2DInterstitialAndEnterVR(true)}
-                  />
-                )}
+              {entered && isMobileVR && (
+                <ToolbarButton
+                  icon={<VRIcon />}
+                  preset="accept"
+                  label={<FormattedMessage id="toolbar.enter-vr-button" defaultMessage="Enter VR" />}
+                  onClick={() => exit2DInterstitialAndEnterVR(true)}
+                />
+              )}
             </div>
 
             {preload && this.props.hub && (
@@ -1635,9 +1635,7 @@ class UIRoot extends Component {
         {/* onboardxr */}
         {helpImg}
         {cueUI}
-        {this.props.store.state.preferences.showAvatarTransform && (
-          <AvatarTransformDisplay />
-        )}
+        {this.props.store.state.preferences.showAvatarTransform && <AvatarTransformDisplay />}
         {/* onboardxrend */}
       </MoreMenuContextProvider>
     );

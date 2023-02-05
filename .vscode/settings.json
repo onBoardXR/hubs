@@ -8,5 +8,8 @@
   // Use 'prettier-eslint' instead of 'prettier'. Other settings will only be fallbacks in case they could not be inferred from eslint rules.
   "prettier.eslintIntegration": true,
   // Enable eslint for JavaScript files.
-  "eslint.enable": true
+  "eslint.enable": true,
+  "search.useIgnoreFiles": true,
+  "search.useGlobalIgnoreFiles": false,
+  "search.useParentIgnoreFiles": false
 }

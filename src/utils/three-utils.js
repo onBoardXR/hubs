@@ -320,10 +320,22 @@ export const rotateInPlaceAroundWorldUp = (function () {
   const v = new THREE.Vector3();
   return function rotateInPlaceAroundWorldUp(inMat4, theta, outMat4) {
     inMat4Copy.copy(inMat4);
+    //onboardxr
+    //detect axis for rotation
+    let qaxis = document.querySelector("#avatar-rig").object3D.quaternion;
+    //let qaxis = new THREE.Quaternion().setFromRotationMatrix(rigCopy);
+    let axis = new THREE.Vector3(0, 1, 0).applyQuaternion(qaxis).normalize();
+    //console.log(axis);
     return outMat4
-      .copy(endRotation.makeRotationY(theta).multiply(startRotation.extractRotation(inMat4Copy)))
+      .copy(endRotation.makeRotationAxis(axis, theta).multiply(startRotation.extractRotation(inMat4Copy)))
       .scale(v.setFromMatrixScale(inMat4Copy))
       .setPosition(v.setFromMatrixPosition(inMat4Copy));
+    //onboardxrend
+
+    // return outMat4
+    //   .copy(endRotation.makeRotationY(theta).multiply(startRotation.extractRotation(inMat4Copy)))
+    //   .scale(v.setFromMatrixScale(inMat4Copy))
+    //   .setPosition(v.setFromMatrixPosition(inMat4Copy));
   };
 })();
 

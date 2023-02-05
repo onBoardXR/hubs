@@ -13,6 +13,13 @@ import { sets } from "../systems/userinput/sets";
 import { getLastWorldPosition } from "../utils/three-utils";
 import { Layers } from "./layers";
 
+//onboardxr
+import { updateTheatreObject } from "../onboardxr/hubs-docking/theatre.js";
+const qs = new URLSearchParams(location.search);
+const studioMode = qs.get("t") === "obxtheatrejs";
+import { findAncestorWithComponent } from "../utils/scene-graph";
+//onboardxrend
+
 export function findRemoteHoverTarget(world, object3D) {
   if (!object3D) return null;
   if (!object3D.eid) return findRemoteHoverTarget(world, object3D.parent);
@@ -157,6 +164,7 @@ AFRAME.registerComponent("cursor-controller", {
       this.raycaster.near = this.data.near * playerScale;
 
       const isGrabbing = left ? anyEntityWith(APP.world, HeldRemoteLeft) : anyEntityWith(APP.world, HeldRemoteRight);
+
       let isHoveringSomething = false;
       if (!isGrabbing) {
         rawIntersections.length = 0;
@@ -170,6 +178,7 @@ AFRAME.registerComponent("cursor-controller", {
         this.intersection = rawIntersections[0];
 
         const remoteHoverTarget = this.intersection && findRemoteHoverTarget(APP.world, this.intersection.object);
+
         isHoveringSomething = !!remoteHoverTarget;
         if (remoteHoverTarget) {
           addComponent(APP.world, left ? HoveredRemoteLeft : HoveredRemoteRight, remoteHoverTarget);
@@ -183,6 +192,37 @@ AFRAME.registerComponent("cursor-controller", {
         }
         this.distance = remoteHoverTarget ? this.intersection.distance : this.data.defaultDistance * playerScale;
       }
+
+      //onboardxr
+      //CURRENTLY BROKEN. this.intersection.object is not returning correctly
+      if (isGrabbing && studioMode) {
+        //if object has not been set to theatreJS updating, set it and add new current scrub
+        //console.log("is grabbing", rawIntersections[0].object);
+        if (!rawIntersections[0].object.theatreUpdate) {
+          rawIntersections[0].object.theatreUpdate = true;
+          rawIntersections[0].object.currentScrub = sockSys.theatreJS.studio.scrub();
+          console.log("starting up scrub");
+        }
+        //pass object to be updated
+
+        // if (!rawIntersections[0].object.theatreInt) {
+        //   let netObj = findAncestorWithComponent(rawIntersections[0].object.el, "networked");
+        //   rawIntersections[0].object.theatreInt = updateTheatreObject(
+        //     netObj.object3D,
+        //     rawIntersections[0].object.currentScrub
+        //   );
+        // }
+      } else if (!isGrabbing && rawIntersections[0] && rawIntersections[0].object.theatreUpdate && studioMode) {
+        //commit scrub, remove update, and reset scrub
+        //console.log(rawIntersections[0]);
+        //clearInterval(rawIntersections[0].object.theatreInt);
+        //rawIntersections[0].object.theatreInt = undefined;
+        let netObj = findAncestorWithComponent(rawIntersections[0].object.el, "networked");
+        updateTheatreObject(netObj.object3D, rawIntersections[0].object.currentScrub);
+        rawIntersections[0].object.theatreUpdate = false;
+        rawIntersections[0].object.currentScrub.commit();
+      }
+      //onboardxrend
 
       const { cursor, minDistance, far, camera } = this.data;
 

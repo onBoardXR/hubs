@@ -28,6 +28,7 @@ import { anyEntityWith } from "./utils/bit-utils";
 
 //onboard
 import { getSendNetworkedId } from "./onboardxr/hubs-docking/socket-function-helpers.js";
+import { addAvatarToTheatreStudio} from "./onboardxr/hubs-docking/theatre.js";
 //onboardend
 
 export default class SceneEntryManager {
@@ -126,10 +127,6 @@ export default class SceneEntryManager {
     setTimeout(() => this.store.bumpEntryCount(), 30000);
 
     this.scene.addState("entered");
-
-    //onboard
-    getSendNetworkedId();
-    //onboardend
 
     APP.mediaDevicesManager.micEnabled = !muteOnEntry;
   };
@@ -453,6 +450,11 @@ export default class SceneEntryManager {
     this.avatarRig.setAttribute("networked", "template: #remote-avatar; attachTemplateToLocal: false;");
     this.avatarRig.setAttribute("networked-avatar", "");
     this.avatarRig.emit("entered");
+
+    //onboard
+    getSendNetworkedId();
+    addAvatarToTheatreStudio(["Global"]);
+    //onboardend
   };
 
   _runBot = async () => {
@@ -532,7 +534,7 @@ export default class SceneEntryManager {
       gainNode.connect(audioDestination);
       gainNode.gain.value = audioVolume;
 
-      const audioSystem = AFRAME.scenes[0].systems["hubs-systems"].audioSystem
+      const audioSystem = AFRAME.scenes[0].systems["hubs-systems"].audioSystem;
       audioSystem.addStreamToOutboundAudio("microphone", audioDestination.stream);
     }
 

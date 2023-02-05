@@ -1,4 +1,11 @@
+import {RNOIntercept} from '../onboardxr/hubs-docking/cue-helpers.js'
+
 export function removeNetworkedObject(scene, targetEl) {
+  //onboardxr
+  let test = RNOIntercept(targetEl);
+  if (test) return;
+  //onboardxr
+
   if (!NAF.utils.isMine(targetEl) && !NAF.utils.takeOwnership(targetEl)) return;
 
   targetEl.setAttribute("animation__remove", {

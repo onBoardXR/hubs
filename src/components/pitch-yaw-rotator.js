@@ -1,6 +1,6 @@
 import { paths } from "../systems/userinput/paths";
 
-const rotatePitchAndYaw = (function() {
+const rotatePitchAndYaw = (function () {
   const opq = new THREE.Quaternion();
   const owq = new THREE.Quaternion();
   const oq = new THREE.Quaternion();
@@ -17,22 +17,45 @@ const rotatePitchAndYaw = (function() {
     o.parent.getWorldQuaternion(opq);
     o.getWorldQuaternion(owq);
     oq.copy(o.quaternion);
-    v.set(0, 1, 0).applyQuaternion(oq);
+    //onboardxr
+    const parentUP = new THREE.Vector3(0, 1, 0).applyQuaternion(opq).normalize();
+    // let testForward = new THREE.Vector3(0, 0, 1).applyQuaternion(opq).normalize();
+    // let testRight = new THREE.Vector3(1, 0, 0).applyQuaternion(opq).normalize();
+    //console.log(testUP, testForward, testRight);
+    // v.copy(testUP).applyQuaternion(oq);
+    // const initialUpDot = v.dot(UP);
+    // v.copy(testForward).applyQuaternion(oq);
+    // const initialForwardDotUp = Math.abs(v.dot(UP));
+    // right.set(1, 0, 0).applyQuaternion(owq);
+
+    v.set(0, 1, 0).applyQuaternion(owq);
     const initialUpDot = v.dot(UP);
-    v.set(0, 0, 1).applyQuaternion(oq);
+    v.set(0, 0, 1).applyQuaternion(owq);
     const initialForwardDotUp = Math.abs(v.dot(UP));
     right.set(1, 0, 0).applyQuaternion(owq);
     pq.setFromAxisAngle(right, p);
-    yq.setFromAxisAngle(UP, y);
+    yq.setFromAxisAngle(parentUP, y);
 
-    q.copy(owq)
-      .premultiply(pq)
-      .premultiply(yq)
-      .premultiply(opq.invert());
+    q.copy(owq).premultiply(pq).premultiply(yq).premultiply(opq.invert());
     v.set(0, 1, 0).applyQuaternion(q);
     const newUpDot = v.dot(UP);
     v.set(0, 0, 1).applyQuaternion(q);
     const newForwardDotUp = Math.abs(v.dot(UP));
+
+    // v.set(0, 1, 0).applyQuaternion(oq);
+    // const initialUpDot = v.dot(UP);
+    // v.set(0, 0, 1).applyQuaternion(oq);
+    // const initialForwardDotUp = Math.abs(v.dot(UP));
+    // right.set(1, 0, 0).applyQuaternion(owq);
+    // pq.setFromAxisAngle(right, p);
+    // yq.setFromAxisAngle(UP, y);
+
+    // q.copy(owq).premultiply(pq).premultiply(yq).premultiply(opq.invert());
+    // v.set(0, 1, 0).applyQuaternion(q);
+    // const newUpDot = v.dot(UP);
+    // v.set(0, 0, 1).applyQuaternion(q);
+    // const newForwardDotUp = Math.abs(v.dot(UP));
+    //onboardxrend
     // Ensure our pitch is in an accepted range and our head would not be flipped upside down
     if ((newForwardDotUp > 0.9 && newForwardDotUp > initialForwardDotUp) || (newUpDot < 0 && newUpDot < initialUpDot)) {
       // TODO: Apply a partial rotation that does not exceed the bounds for nicer UX
