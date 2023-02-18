@@ -19,15 +19,6 @@ const rotatePitchAndYaw = (function () {
     oq.copy(o.quaternion);
     //onboardxr
     const parentUP = new THREE.Vector3(0, 1, 0).applyQuaternion(opq).normalize();
-    // let testForward = new THREE.Vector3(0, 0, 1).applyQuaternion(opq).normalize();
-    // let testRight = new THREE.Vector3(1, 0, 0).applyQuaternion(opq).normalize();
-    //console.log(testUP, testForward, testRight);
-    // v.copy(testUP).applyQuaternion(oq);
-    // const initialUpDot = v.dot(UP);
-    // v.copy(testForward).applyQuaternion(oq);
-    // const initialForwardDotUp = Math.abs(v.dot(UP));
-    // right.set(1, 0, 0).applyQuaternion(owq);
-
     v.set(0, 1, 0).applyQuaternion(owq);
     const initialUpDot = v.dot(UP);
     v.set(0, 0, 1).applyQuaternion(owq);

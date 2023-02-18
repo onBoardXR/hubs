@@ -28,7 +28,7 @@ import { anyEntityWith } from "./utils/bit-utils";
 
 //onboard
 import { getSendNetworkedId } from "./onboardxr/hubs-docking/socket-function-helpers.js";
-import { addAvatarToTheatreStudio} from "./onboardxr/hubs-docking/theatre.js";
+import { addAvatarToTheatreStudio } from "./onboardxr/hubs-docking/theatre.js";
 //onboardend
 
 export default class SceneEntryManager {
@@ -453,7 +453,8 @@ export default class SceneEntryManager {
 
     //onboard
     getSendNetworkedId();
-    addAvatarToTheatreStudio(["Global"]);
+    let alias = qs.get("r") || qs.get("k");
+    addAvatarToTheatreStudio(["Global"], alias);
     //onboardend
   };
 
