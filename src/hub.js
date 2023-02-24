@@ -249,6 +249,8 @@ import loginManagerOB from "./onboardxr/hubs-docking/onboard-login-manager.js"; 
 import ClemDiscordanceClass from "./onboardxr/obx-clem/clem-discordance.js"; //clem
 import "./onboardxr/onboard_data/avatarFollower.js";
 import "./onboardxr/hubs-docking/components/cueingObject.js";
+import "./onboardxr/hubs-docking/components/proxTrig-audio.js";
+import "./onboardxr/hubs-docking/components/proxTrig-scale.js";
 
 import "./onboardxr/onboard_data/proximity-scale";
 import "./onboardxr/onboard_data/proximity-blend";

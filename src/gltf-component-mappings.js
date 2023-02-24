@@ -350,16 +350,8 @@ AFRAME.GLTFModelPlus.registerComponent(
   "trigger-volume",
   "trigger-volume",
   (el, componentName, componentData, components, indexToEntityMap) => {
-    const {
-      size,
-      target,
-      enterComponent,
-      enterProperty,
-      enterValue,
-      leaveComponent,
-      leaveProperty,
-      leaveValue
-    } = componentData;
+    const { size, target, enterComponent, enterProperty, enterValue, leaveComponent, leaveProperty, leaveValue } =
+      componentData;
 
     let enterComponentMapping, leaveComponentMapping, targetEntity;
 
@@ -623,6 +615,8 @@ AFRAME.GLTFModelPlus.registerComponent("proximity-scale", "proximity-scale");
 AFRAME.GLTFModelPlus.registerComponent("proximity-blend", "proximity-blend");
 AFRAME.GLTFModelPlus.registerComponent("proximity-play-audio", "proximity-play-audio");
 AFRAME.GLTFModelPlus.registerComponent("proximity-animation", "proximity-animation");
+AFRAME.GLTFModelPlus.registerComponent("proxtrig-audio", "proxtrig-audio");
+AFRAME.GLTFModelPlus.registerComponent("proxtrig-scale", "proxtrig-scale");
 AFRAME.GLTFModelPlus.registerComponent("prox-react", "prox-react", (el, _componentName, componentData) => {
   //console.log("redirecting data to prox-blend", componentData);
   let proxData = {
