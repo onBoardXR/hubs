@@ -166,7 +166,9 @@ AFRAME.registerComponent("cursor-controller", {
       const isGrabbing = left ? anyEntityWith(APP.world, HeldRemoteLeft) : anyEntityWith(APP.world, HeldRemoteRight);
 
       let isHoveringSomething = false;
-      if (!isGrabbing) {
+      //onboardxr
+      if (!isGrabbing && !window.APP.cinemaMode) {
+        //onboardxrend
         rawIntersections.length = 0;
         this.raycaster.ray.origin = cursorPose.position;
         this.raycaster.ray.direction = cursorPose.direction;

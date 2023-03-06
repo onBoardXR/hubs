@@ -25,18 +25,18 @@ export function RoomEntryModal({
   onSpectate,
   showOptions,
   onOptions,
+  onEnterOnConnectedHeadset,
   ...rest
 }) {
   const breakpoint = useCssBreakpoints();
   return (
     <Modal className={classNames(styles.roomEntryModal, className)} disableFullscreen {...rest}>
       <Column center className={styles.content}>
-        {breakpoint !== "sm" &&
-          breakpoint !== "md" && (
-            <div className={styles.logoContainer}>
-              <AppLogo />
-            </div>
-          )}
+        {breakpoint !== "sm" && breakpoint !== "md" && (
+          <div className={styles.logoContainer}>
+            <AppLogo />
+          </div>
+        )}
         <div className={styles.roomName}>
           <h5>
             <FormattedMessage id="room-entry-modal.room-name-label" defaultMessage="Room Name" />
@@ -53,11 +53,11 @@ export function RoomEntryModal({
             </Button>
           )}
           {/* onboard */}
-          {false && showEnterOnDevice && (
-            <Button preset="accent5" onClick={onEnterOnDevice}>
+          {showEnterOnDevice && (
+            <Button preset="accent5" onClick={onEnterOnConnectedHeadset}>
               <VRIcon />
               <span>
-                <FormattedMessage id="room-entry-modal.enter-on-device-button" defaultMessage="Enter On Device" />
+                <FormattedMessage id="room-entry-modal.enter-on-device-button" defaultMessage="Use With PCVR" />
               </span>
             </Button>
           )}
@@ -70,18 +70,17 @@ export function RoomEntryModal({
               </span>
             </Button>
           )}
-          {showOptions &&
-            breakpoint !== "sm" && (
-              <>
-                <hr className={styleUtils.showLg} />
-                <Button preset="transparent" className={styleUtils.showLg} onClick={onOptions}>
-                  <SettingsIcon />
-                  <span>
-                    <FormattedMessage id="room-entry-modal.options-button" defaultMessage="Options" />
-                  </span>
-                </Button>
-              </>
-            )}
+          {showOptions && breakpoint !== "sm" && (
+            <>
+              <hr className={styleUtils.showLg} />
+              <Button preset="transparent" className={styleUtils.showLg} onClick={onOptions}>
+                <SettingsIcon />
+                <span>
+                  <FormattedMessage id="room-entry-modal.options-button" defaultMessage="Options" />
+                </span>
+              </Button>
+            </>
+          )}
         </Column>
       </Column>
     </Modal>
@@ -89,6 +88,7 @@ export function RoomEntryModal({
 }
 
 RoomEntryModal.propTypes = {
+  onEnterOnConnectedHeadset: PropTypes.func,
   className: PropTypes.string,
   roomName: PropTypes.string.isRequired,
   showJoinRoom: PropTypes.bool,

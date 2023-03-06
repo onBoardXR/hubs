@@ -78,6 +78,7 @@ AFRAME.registerSystem("personal-space-bubble", {
   },
 
   tick() {
+    return;
     this._updateInvaders();
     this.tickCount++;
   },

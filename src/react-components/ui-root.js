@@ -833,6 +833,11 @@ class UIRoot extends Component {
               this.handleForceEntry();
             }
           }}
+          // onboardxr
+          onEnterOnConnectedHeadset={() => {
+            this.enterVR();
+          }}
+          // onboardxrend
           showEnterOnDevice={!this.state.waitingOnAudio && !this.props.entryDisallowed && !isMobileVR}
           onEnterOnDevice={() => this.attemptLink()}
           showSpectate={!this.state.waitingOnAudio}

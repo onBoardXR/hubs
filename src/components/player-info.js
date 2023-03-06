@@ -5,6 +5,7 @@ import defaultAvatar from "../assets/models/DefaultAvatar.glb";
 import { MediaDevicesEvents } from "../utils/media-devices-utils";
 import { createHeadlessModelForSkinnedMesh } from "../utils/three-utils";
 import { Layers } from "./layers";
+import { findAncestorWithComponent } from "../utils/scene-graph";
 
 function ensureAvatarNodes(json) {
   const { nodes } = json;
@@ -75,7 +76,7 @@ AFRAME.registerComponent("player-info", {
     const modelEl = this.el.querySelector(".model");
     if (this.isLocalPlayerInfo && e.target === modelEl) {
       let isSkinnedAvatar = false;
-      modelEl.object3D.traverse(function(o) {
+      modelEl.object3D.traverse(function (o) {
         if (o.isSkinnedMesh) {
           const headlessMesh = createHeadlessModelForSkinnedMesh(o);
           if (headlessMesh) {
@@ -87,7 +88,7 @@ AFRAME.registerComponent("player-info", {
       // This is to support using arbitrary models as avatars.
       // TODO We can drop support for this when we go full VRM, or at least handle it earlier in the process.
       if (!isSkinnedAvatar) {
-        modelEl.object3D.traverse(function(o) {
+        modelEl.object3D.traverse(function (o) {
           if (o.isMesh) o.layers.set(Layers.CAMERA_LAYER_THIRD_PERSON_ONLY);
         });
       }
@@ -188,6 +189,21 @@ AFRAME.registerComponent("player-info", {
     } else {
       APP.isAudioPaused.delete(avatarEl);
     }
+
+    //onboardxr
+    if (e) {
+      console.log("avatar model loaded");
+      let netEl = findAncestorWithComponent(this.el, "networked");
+      if (!netEl) return;
+      if (window.APP[netEl.getAttribute("networked").networkId]) {
+        console.log(this.el, this.el.querySelector("[avatar-audio-source]").object3D.children[1]);
+        this.el.querySelector("[avatar-audio-source]").object3D.children[1].panner.rolloffFactor =
+          window.APP[netEl.getAttribute("networked").networkId].rolloff;
+        this.el.querySelector("[avatar-audio-source]").object3D.children[1].panner.refDistance =
+          window.APP[netEl.getAttribute("networked").networkId].refDistance;
+      }
+    }
+    //onboardxrend
   },
 
   handleModelError() {
