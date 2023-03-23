@@ -443,7 +443,7 @@ export default class Store extends EventTarget {
         let prefJSON = JSON.parse(window.localStorage.___hubs_store);
         prefJSON.preferences.nametagVisibility = "showFrozen";
         prefJSON.preferences.disableTeleporter = true;
-        // prefJSON.preferences.muteMicOnEntry = true;
+        prefJSON.preferences.muteMicOnEntry = true;
         window.localStorage.___hubs_store = JSON.stringify(prefJSON);
         window.localStorage.onBoardHasJoined = true;
       } else {
