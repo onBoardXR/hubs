@@ -247,7 +247,12 @@ import loginManagerOB from "./onboardxr/hubs-docking/onboard-login-manager.js"; 
 // import ClemRusalkaOB4Class from "./onboardxr/obx-clem/clem-rusalka-ob4.js"; //clem
 // import ClemMocap2DancersClass from "./onboardxr/obx-clem/clem-mocap-2dancers.js"; //clem
 import ClemDiscordanceClass from "./onboardxr/obx-clem/clem-discordance.js"; //clem
-import ChatKeyboardClass from "./onboardxr/obx-clem/chat-to-ai/chatKeyboard.js";
+import ChatKeyboardClass from "./onboardxr/obx-clem/chat-to-ai/chatKeyboard.js"; //clem
+
+import "./onboardxr/obx-clem/chat-to-ai/keyboard-input"; //clem
+import "./onboardxr/obx-clem/chat-to-ai/keyboard.js"; //clem
+import "./onboardxr/obx-clem/chat-to-ai/keyboard-button"; //clem
+
 import "./onboardxr/onboard_data/avatarFollower.js";
 import "./onboardxr/hubs-docking/components/cueingObject.js";
 import "./onboardxr/hubs-docking/components/proxTrig-audio.js";
@@ -1409,7 +1414,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   // if (window.location.href.includes("chatkeyboard")) {
-    window.chatKeyboard.init();
+    // window.chatKeyboard.init();
   // }
 
   window.stgSys.init();
