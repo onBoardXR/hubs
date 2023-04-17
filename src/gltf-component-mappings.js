@@ -610,7 +610,6 @@ AFRAME.GLTFModelPlus.registerComponent("reflection-probe", "reflection-probe", (
 
 //onboard
 AFRAME.GLTFModelPlus.registerComponent("cueing-object", "cueing-object");
-
 AFRAME.GLTFModelPlus.registerComponent("proximity-scale", "proximity-scale");
 AFRAME.GLTFModelPlus.registerComponent("proximity-blend", "proximity-blend");
 AFRAME.GLTFModelPlus.registerComponent("proximity-play-audio", "proximity-play-audio");
