@@ -1490,17 +1490,19 @@
         </a-entity>
       </a-entity>
 
-      <a-entity class="ui interactable-ui vr-notice chat" visible="true">
+      <a-entity class="ui interactable-ui vr-notice chat" follow-in-fov="target: #avatar-pov-node; offset: -0.5 0 -0.5; angle: 0;speed: 0.03;" visible="true">
+      <!-- <a-entity class="ui interactable-ui vr-notice chat" visible="true"> -->
         <a-entity
         id="keyboard-input"
         keyboard-input
-        position="-0.12 1.6 -0.2"
+        position="-0.12 -0.2 -0.2"
+
         ></a-entity>
   
         <a-entity
         id="keyboard"
         keyboard
-        position="0.08 1.6  -0.2"
+        position="0.08 -0.2  -0.2"
         > </a-entity>
       </a-entity>
         

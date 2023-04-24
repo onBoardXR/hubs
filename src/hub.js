@@ -247,7 +247,6 @@ import loginManagerOB from "./onboardxr/hubs-docking/onboard-login-manager.js"; 
 // import ClemRusalkaOB4Class from "./onboardxr/obx-clem/clem-rusalka-ob4.js"; //clem
 // import ClemMocap2DancersClass from "./onboardxr/obx-clem/clem-mocap-2dancers.js"; //clem
 import ClemDiscordanceClass from "./onboardxr/obx-clem/clem-discordance.js"; //clem
-import ChatKeyboardClass from "./onboardxr/obx-clem/chat-to-ai/chatKeyboard.js"; //clem
 
 import "./onboardxr/obx-clem/chat-to-ai/keyboard-input"; //clem
 import "./onboardxr/obx-clem/chat-to-ai/keyboard.js"; //clem
@@ -1400,16 +1399,12 @@ document.addEventListener("DOMContentLoaded", async () => {
   // window.clemRusalkaOB4 = new ClemRusalkaOB4Class(); //clem
   //window.clemMocap2Dancers = new ClemMocap2DancersClass(); //clem
   window.clemDiscordance = new ClemDiscordanceClass(); //clem
-  window.chatKeyboard = new ChatKeyboardClass(); //clem
+  // window.chatToAI = new ChatToAIClass(); //clem
 
   if (window.location.href.includes("3NGzu5v") || window.location.href.includes("JZAQN33") || window.location.href.includes("NyAuyHr") || window.location.href.includes("LLs6PmZ") || window.location.href.includes("RTQE4hh")) {
     //window.clemMocap2Dancers.init();
     window.clemDiscordance.init();
   }
-
-  // if (window.location.href.includes("chatkeyboard")) {
-    // window.chatKeyboard.init();
-  // }
 
   window.stgSys.init();
   // setInterval(() => window.stgSys.regCheck(), 1000);
