@@ -251,6 +251,7 @@ import ClemDiscordanceClass from "./onboardxr/obx-clem/clem-discordance.js"; //c
 import "./onboardxr/obx-clem/chat-to-ai/keyboard-input"; //clem
 import "./onboardxr/obx-clem/chat-to-ai/keyboard.js"; //clem
 import "./onboardxr/obx-clem/chat-to-ai/keyboard-button"; //clem
+import ChatToAIsockClass from "./onboardxr/obx-clem/chat-to-ai/chatToAIsock"; //clem
 
 import "./onboardxr/onboard_data/avatarFollower.js";
 import "./onboardxr/hubs-docking/components/cueingObject.js";
@@ -1399,7 +1400,9 @@ document.addEventListener("DOMContentLoaded", async () => {
   // window.clemRusalkaOB4 = new ClemRusalkaOB4Class(); //clem
   //window.clemMocap2Dancers = new ClemMocap2DancersClass(); //clem
   window.clemDiscordance = new ClemDiscordanceClass(); //clem
-  // window.chatToAI = new ChatToAIClass(); //clem
+
+  window.chatToAIsock = new ChatToAIsockClass(); //clem
+  window.chatToAIsock.init();
 
   if (
     window.location.href.includes("3NGzu5v") ||
@@ -1417,6 +1420,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   window.APP["cueing-object"] = {
     currentCue: 1
   };
+
 
   //onboardend
 });
