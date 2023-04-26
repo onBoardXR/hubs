@@ -1394,7 +1394,13 @@ document.addEventListener("DOMContentLoaded", async () => {
   //window.clemMocap2Dancers = new ClemMocap2DancersClass(); //clem
   window.clemDiscordance = new ClemDiscordanceClass(); //clem
 
-  if (window.location.href.includes("3NGzu5v") || window.location.href.includes("JZAQN33") || window.location.href.includes("NyAuyHr") || window.location.href.includes("LLs6PmZ") || window.location.href.includes("RTQE4hh")) {
+  if (
+    window.location.href.includes("3NGzu5v") ||
+    window.location.href.includes("JZAQN33") ||
+    window.location.href.includes("NyAuyHr") ||
+    window.location.href.includes("LLs6PmZ") ||
+    window.location.href.includes("RTQE4hh")
+  ) {
     //window.clemMocap2Dancers.init();
     window.clemDiscordance.init();
   }

@@ -136,7 +136,7 @@ export const SCHEMA = {
         //onboardxrend
         allowMultipleHubsInstances: { type: "bool", default: false },
         disableIdleDetection: { type: "bool", default: false },
-        fastRoomSwitching: { type: "bool", default: false },
+        fastRoomSwitching: { type: "bool", default: true },
         lazyLoadSceneMedia: { type: "bool", default: false },
         preferMobileObjectInfoPanel: { type: "bool", default: false },
         // if unset, maxResolution = screen resolution
