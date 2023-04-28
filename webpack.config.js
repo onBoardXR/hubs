@@ -729,7 +729,9 @@ module.exports = async (env, argv) => {
           POSTGREST_SERVER: process.env.POSTGREST_SERVER,
           UPLOADS_HOST: process.env.UPLOADS_HOST,
           BASE_ASSETS_PATH: process.env.BASE_ASSETS_PATH,
-          APP_CONFIG: appConfig
+          APP_CONFIG: appConfig,
+          OPENAI_TOKEN_MICHAEL: process.env.OPENAI_TOKEN_MICHAEL,
+          OPENAI_ORG_MICHAEL: process.env.OPENAI_ORG_MICHAEL
         })
       })
     ]

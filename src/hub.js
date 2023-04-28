@@ -247,6 +247,12 @@ import loginManagerOB from "./onboardxr/hubs-docking/onboard-login-manager.js"; 
 // import ClemRusalkaOB4Class from "./onboardxr/obx-clem/clem-rusalka-ob4.js"; //clem
 // import ClemMocap2DancersClass from "./onboardxr/obx-clem/clem-mocap-2dancers.js"; //clem
 import ClemDiscordanceClass from "./onboardxr/obx-clem/clem-discordance.js"; //clem
+
+import "./onboardxr/obx-clem/chat-to-ai/keyboard-input"; //clem
+import "./onboardxr/obx-clem/chat-to-ai/keyboard.js"; //clem
+import "./onboardxr/obx-clem/chat-to-ai/keyboard-button"; //clem
+import ChatToAIsockClass from "./onboardxr/obx-clem/chat-to-ai/chatToAIsock"; //clem
+
 import "./onboardxr/onboard_data/avatarFollower.js";
 import "./onboardxr/hubs-docking/components/cueingObject.js";
 import "./onboardxr/hubs-docking/components/proxTrig-audio.js";
@@ -256,6 +262,7 @@ import "./onboardxr/onboard_data/proximity-scale";
 import "./onboardxr/onboard_data/proximity-blend";
 import "./onboardxr/onboard_data/proximity-play-audio";
 import "./onboardxr/onboard_data/proximity-animation";
+
 //onboardend
 
 const PHOENIX_RELIABLE_NAF = "phx-reliable";
@@ -1394,6 +1401,9 @@ document.addEventListener("DOMContentLoaded", async () => {
   //window.clemMocap2Dancers = new ClemMocap2DancersClass(); //clem
   window.clemDiscordance = new ClemDiscordanceClass(); //clem
 
+  window.chatToAIsock = new ChatToAIsockClass(); //clem
+  window.chatToAIsock.init();
+
   if (window.location.href.includes("3NGzu5v") || window.location.href.includes("JZAQN33") || window.location.href.includes("NyAuyHr") || window.location.href.includes("LLs6PmZ") || window.location.href.includes("RTQE4hh")) {
     //window.clemMocap2Dancers.init();
     window.clemDiscordance.init();
@@ -1404,6 +1414,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   window.APP["cueing-object"] = {
     currentCue: 1
   };
+
 
   //onboardend
 });

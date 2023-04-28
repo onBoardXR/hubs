@@ -140,6 +140,7 @@ AFRAME.registerComponent("cursor-controller", {
     const v = new THREE.Vector3();
 
     return function (t, left) {
+      
       const userinput = AFRAME.scenes[0].systems.userinput;
       const cursorPose = userinput.get(left ? paths.actions.cursor.left.pose : paths.actions.cursor.right.pose);
       const hideLine = userinput.get(left ? paths.actions.cursor.left.hideLine : paths.actions.cursor.right.hideLine);
