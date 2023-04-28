@@ -731,9 +731,7 @@ module.exports = async (env, argv) => {
           BASE_ASSETS_PATH: process.env.BASE_ASSETS_PATH,
           APP_CONFIG: appConfig,
           OPENAI_TOKEN_MICHAEL: process.env.OPENAI_TOKEN_MICHAEL,
-          OPENAI_ORG_MICHAEL: process.env.OPENAI_ORG_MICHAEL,
-          OPENAI_TOKEN_BRENDAN: process.env.OPENAI_TOKEN_BRENDAN,
-          OPENAI_ORG_BRENDAN: process.env.OPENAI_ORG_BRENDAN
+          OPENAI_ORG_MICHAEL: process.env.OPENAI_ORG_MICHAEL
         })
       })
     ]
