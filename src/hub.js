@@ -1415,6 +1415,5 @@ document.addEventListener("DOMContentLoaded", async () => {
     currentCue: 1
   };
 
-
   //onboardend
 });

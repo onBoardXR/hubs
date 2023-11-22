@@ -34,7 +34,15 @@ const getTs = (() => {
   };
 
   const res = await fetch(`https://${host}/api/ita/configs/hubs`, { headers });
+  // console.log(await res.text())
   const hubsConfigs = await res.json();
+    console.log(hubsConfigs)
+
+
+if (!hubsConfigs || !hubsConfigs.general) {
+  console.error("Failed to retrieve hub configurations.");
+  process.exit(1);
+}
   const buildEnv = {};
   for (const [k, v] of Object.entries(hubsConfigs.general)) {
     buildEnv[k.toUpperCase()] = v;
@@ -60,12 +68,12 @@ const getTs = (() => {
 
   step.text = "Building Client.";
 
-  await new Promise((resolve, reject) => {
-    exec("npm ci", {}, err => {
-      if (err) reject(err);
-      resolve();
-    });
-  });
+  // await new Promise((resolve, reject) => {
+  //   exec("npm ci", {}, err => {
+  //     if (err) reject(err);
+  //     resolve();
+  //   });
+  // });
 
   await new Promise((resolve, reject) => {
     exec("npm run build", { env }, err => {
@@ -76,12 +84,12 @@ const getTs = (() => {
 
   step.text = "Building Admin Console.";
 
-  await new Promise((resolve, reject) => {
-    exec("npm ci", { cwd: "./admin" }, err => {
-      if (err) reject(err);
-      resolve();
-    });
-  });
+  // await new Promise((resolve, reject) => {
+  //   exec("npm ci", { cwd: "./admin" }, err => {
+  //     if (err) reject(err);
+  //     resolve();
+  //   });
+  // });
 
   await new Promise((resolve, reject) => {
     exec("npm run build", { cwd: "./admin", env }, err => {

@@ -437,15 +437,15 @@ export default class Store extends EventTarget {
     delete this[STORE_STATE_CACHE_KEY];
 
     //onboard
-    if (window.localStorage) {
-      if (window.localStorage.___hubs_store) {
+    if (localStorage) {
+      if (localStorage.___hubs_store) {
         //console.log("found hubs store");
-        let prefJSON = JSON.parse(window.localStorage.___hubs_store);
+        let prefJSON = JSON.parse(localStorage.___hubs_store);
         prefJSON.preferences.nametagVisibility = "showFrozen";
         prefJSON.preferences.disableTeleporter = true;
         prefJSON.preferences.muteMicOnEntry = true;
-        window.localStorage.___hubs_store = JSON.stringify(prefJSON);
-        window.localStorage.onBoardHasJoined = true;
+        localStorage.___hubs_store = JSON.stringify(prefJSON);
+        localStorage.onBoardHasJoined = true;
       } else {
         console.log("waiting for hubs store");
       }
